@@ -18,21 +18,40 @@ var buttons = document.querySelectorAll('.ticket button');
 
 
 function boardTrain(trainIndex) {
-  var information =
-    document.querySelectorAll(".information")[trainIndex - 1].innerText;
-  var encodedInformation = encodeURIComponent(information);
-//   alert("Working")
-// document.querySelector('.loader -container').style.display = 'block';
-document.getElementById('one').style.display = 'block';
-d = document.getElementById('d').style.display = 'none';
+  // Get train information with proper error handling
+  const trainElements = document.querySelectorAll(".information");
+  if (trainIndex < 1 || trainIndex > trainElements.length) {
+    console.error("Invalid train index");
+    return;
+  }
 
-  
+  const information = trainElements[trainIndex - 1].innerText;
+  const encodedInformation = encodeURIComponent(information);
+
+  // Show loader with proper element checking
+  const loaderElement = document.getElementById('one');
+  if (loaderElement) {
+    loaderElement.style.display = 'block';
+  } else {
+    console.warn("Loader element with id 'one' not found");
+  }
+
+  // Hide element with proper checking
+  const hiddenElement = document.getElementById('d');
+  if (hiddenElement) {
+    hiddenElement.style.display = 'none';
+  } else {
+    console.warn("Element with id 'd' not found");
+  }
+
+  // Fixed: Corrected CSS selector (was '.loader -container' with extra space)
   setTimeout(() => {
+    const loaderContainer = document.querySelector('.loader-container');
+    if (loaderContainer) {
+      loaderContainer.style.display = 'none';
+    } else {
+      console.warn("Loader container element not found");
+    }
     window.location.href = "form.html?information=" + encodedInformation;
-    document.querySelector('.loader-container').style.display = 'none';
   }, 3000);
-
-
-
 }
-
